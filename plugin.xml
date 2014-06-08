@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="tadu-code-analyzer.actionSet">
+         <menu
+               label="Code &amp;Analyzer"
+               id="codeAnalyzer">
+            <separator
+                  name="sampleGroup">
+            </separator>
+         </menu>
+         <action
+               label="Code &amp;Analyzer"
+               icon="icons/sample.gif"
+               class="tadu.code.analyzer.actions.EntranceAction"
+               tooltip="tadu-code-analyzer"
+               menubarPath="codeAnalyzer/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="tadu.code.analyzer.actions.EntranceAction">
+         </action>
+      </actionSet>
+   </extension>
+
+</plugin>
