@@ -46,8 +46,8 @@ import com.taduk.analyzer.svn.SvnXmlAnalyzer;
  */
 public class SvnKitUtil {
 
-	private static final String PASSWORD = "bL*QKMqR[;";
-	private static final String USERNAME = "liubing";
+	private static final String PASSWORD = "111111";
+	private static final String USERNAME = "lifei";
 	
 	private static ISVNAuthenticationManager authenticationManager;
 	private static ISVNOptions options;

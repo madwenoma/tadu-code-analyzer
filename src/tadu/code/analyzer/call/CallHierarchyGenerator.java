@@ -18,24 +18,22 @@ import org.eclipse.jdt.internal.corext.callhierarchy.MethodWrapper;
 public class CallHierarchyGenerator {
 
 	private static final String EXCLUDE_PACKAGE_NAME = "com.tywire.tadu.test";
-	
+
 	private static final String ANONY_START_STR = "<anonymous #1>";
 	private static final String ANONY_START_CLASS_STR = "class <anonymous #1>";
 
-	private IJavaProject javaProject;
-	
-	
-	
+	private final IJavaProject javaProject;
+
 	public CallHierarchyGenerator(IJavaProject project) {
 		this.javaProject = project;
-		
+
 	}
 
 	public HashSet<IMethod> getCalledMethods(IMethod method) {
 
 		CallHierarchy callHierarchy = CallHierarchy.getDefault();
 
-		IMember[] members = { method };
+		IMember[] members = {method};
 		MethodWrapper[] methodWrappers = callHierarchy.getCallerRoots(members);
 		HashSet<IMethod> callers = new HashSet<IMethod>();
 		for (MethodWrapper mw : methodWrappers) {
@@ -70,8 +68,9 @@ public class CallHierarchyGenerator {
 		return null;
 	}
 
-	public IMethod findMethod(IType type, String methodName)
-			throws JavaModelException {
+	public IMethod findMethod(IType type, String methodName) throws JavaModelException {
+		if (type == null)
+			return null;
 		IMethod[] methods = type.getMethods();
 		IMethod theMethod = null;
 
@@ -100,7 +99,6 @@ public class CallHierarchyGenerator {
 	 * 递归查找方法调用，返回树形对象 m : Mapper getBook
 	 * 
 	 * @throws JavaModelException
-	 * 
 	 */
 	public void getCallersRecursive(IMethod method, CalledMethodEntity calledTree) throws JavaModelException {
 
@@ -109,7 +107,7 @@ public class CallHierarchyGenerator {
 
 		HashSet<IMethod> calledMethods = getCalledMethods(method);
 
-		if (calledMethods.size() == 0){ // 递归终止条件
+		if (calledMethods.size() == 0) { // 递归终止条件
 			calledTree.setMethod(method); //TODO 20140420修改未测
 			return;
 		}
@@ -142,26 +140,26 @@ public class CallHierarchyGenerator {
 			if (isAnonymousMethod(calledMethod)) {
 				// TODO
 				calledMethodEntity.setMethod((this.findMethod(calledMethod.getCompilationUnit().getTypes()[0],
-												calledMethod.getParent().getParent().getElementName())));
+						calledMethod.getParent().getParent().getElementName())));
 			}
-			getCallersRecursive(calledMethodEntity.getMethod(),	calledMethodEntity);
+			getCallersRecursive(calledMethodEntity.getMethod(), calledMethodEntity);
 		}
 	}
-	
-	
+
 	/**
-	 * 
-	 * @param classWithPkgName  形如：com.tywire.tadu.dao.BookTopicSlaveMapper
-	 * @param methodName		形如：getBookTopicById
+	 * @param classWithPkgName 形如：com.tywire.tadu.dao.BookTopicSlaveMapper
+	 * @param methodName 形如：getBookTopicById
 	 * @return
 	 */
 	public CalledMethodEntity getCallersRecursive(String classWithPkgName, String methodName) {
 		CalledMethodEntity entity = new CalledMethodEntity();
 		try {
 			IType type = javaProject.findType(classWithPkgName);
-			getCallersRecursive(this.findMethod(type, methodName), entity);
+			IMethod method = this.findMethod(type, methodName);
+			if (method != null)
+				getCallersRecursive(this.findMethod(type, methodName), entity);
 			if (entity.getMethod() == null) {
-				
+
 			}
 			return entity;
 		} catch (JavaModelException e) {
@@ -171,7 +169,7 @@ public class CallHierarchyGenerator {
 
 		return entity;
 	}
-	
+
 	/**
 	 * 递归查找方法调用的终止条件，某些方法如果不需要继续查找，如call等
 	 * 
@@ -185,7 +183,7 @@ public class CallHierarchyGenerator {
 		String methodName = method.getElementName().toString();
 		return "call".equals(methodName) || "run".equals(methodName) || "doJob".equals(methodName);
 	}
-	
+
 	/**
 	 * 递归查找方法调用的终止条件，某些方法如果不需要继续查找，如call等
 	 * 
@@ -197,8 +195,7 @@ public class CallHierarchyGenerator {
 			return false;
 		}
 		String methodParentStr = method.getParent().toString();
-		return methodParentStr.startsWith(ANONY_START_STR)
-				|| methodParentStr.startsWith(ANONY_START_CLASS_STR);
+		return methodParentStr.startsWith(ANONY_START_STR) || methodParentStr.startsWith(ANONY_START_CLASS_STR);
 	}
 
 }

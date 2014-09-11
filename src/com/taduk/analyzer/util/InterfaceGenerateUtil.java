@@ -95,7 +95,6 @@ public class InterfaceGenerateUtil {
 				} else if (isPrivateStaticMethod(line)) {
 					line = StringUtils.replace(line, "private static", "private");
 				}
-				
 				newLines.add(line);
 			}
 			try {

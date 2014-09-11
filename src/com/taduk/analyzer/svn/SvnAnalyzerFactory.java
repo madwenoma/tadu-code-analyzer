@@ -3,9 +3,7 @@ package com.taduk.analyzer.svn;
 import java.util.HashMap;
 
 /**
- * 
  * @author LIFEI
- * 
  */
 public class SvnAnalyzerFactory {
 	public static HashMap<String, SvnAnalyzer> svnAnalyzers = new HashMap<String, SvnAnalyzer>();
@@ -16,7 +14,10 @@ public class SvnAnalyzerFactory {
 		svnAnalyzers.put("xml", new SvnXmlAnalyzer());
 		svnAnalyzers.put("css", staticAnalyzer);
 		svnAnalyzers.put("js", staticAnalyzer);
+		svnAnalyzers.put("jpg", staticAnalyzer);
+		svnAnalyzers.put("png", staticAnalyzer);
 		svnAnalyzers.put("shtml", staticAnalyzer);
+		svnAnalyzers.put("db", staticAnalyzer);
 	}
 
 	/**

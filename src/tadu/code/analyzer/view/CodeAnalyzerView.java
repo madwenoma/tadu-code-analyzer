@@ -150,7 +150,8 @@ public class CodeAnalyzerView {
 				JDTUtils.importProject(webProjectpath);
 				
 				//找到core包的方法调用堆栈，最后
-				final java.util.List<ChangedResource> coreChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(coreProjectPath, coreSvnUrl, 76537, 76505);
+//				final java.util.List<ChangedResource> coreChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(coreProjectPath, coreSvnUrl, 76537, 76505);
+				final java.util.List<ChangedResource> coreChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(coreProjectPath, coreSvnUrl, 86055, 85896);
 				tipConsoleText.setText("开始分析svn变动");
 				
 				//初始化web.xml和servlet的映射类
@@ -175,7 +176,8 @@ public class CodeAnalyzerView {
 				 */
 				CallHierarchyGenerator webCallGenerator  = new CallHierarchyGenerator(TaduJavaProject.WEB_JAVAPROJECT);
 				ArrayList<CalledMethodEntity> cmEntities = new ArrayList<CalledMethodEntity>();
-				java.util.List<ChangedResource> webChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(webProjectpath, webSvnUrl, 78320, 78289);
+//				java.util.List<ChangedResource> webChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(webProjectpath, webSvnUrl, 78320, 78289);
+				java.util.List<ChangedResource> webChangedResources = SvnAnalyzerTools.analyzeSvnDiffResult(webProjectpath, webSvnUrl, 86096, 85897);
 				
 				class StaticResourceMapper { //该类包含了一个静态资源，及其使用了该资源的shtml模板集合
 					public String staticResource;
